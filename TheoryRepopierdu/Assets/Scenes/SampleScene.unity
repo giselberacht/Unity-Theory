@@ -312,7 +312,6 @@ GameObject:
   - component: {fileID: 115057745}
   - component: {fileID: 115057748}
   - component: {fileID: 115057747}
-  - component: {fileID: 115057746}
   m_Layer: 0
   m_Name: RightVertical
   m_TagString: Untagged
@@ -339,19 +338,6 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &115057746
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115057744}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &115057747
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -516,7 +502,6 @@ GameObject:
   - component: {fileID: 386599428}
   - component: {fileID: 386599431}
   - component: {fileID: 386599430}
-  - component: {fileID: 386599429}
   m_Layer: 0
   m_Name: CrossIndicator
   m_TagString: Untagged
@@ -543,20 +528,6 @@ RectTransform:
   m_AnchoredPosition: {x: 7, y: -1.54}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
---- !u!136 &386599429
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386599427}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &386599430
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -704,7 +675,7 @@ RectTransform:
   - {fileID: 2064754069}
   m_Father: {fileID: 1238357698}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 119.82486}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -745,7 +716,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -778,7 +749,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1031,7 +1002,6 @@ GameObject:
   - component: {fileID: 1121855056}
   - component: {fileID: 1121855059}
   - component: {fileID: 1121855058}
-  - component: {fileID: 1121855057}
   m_Layer: 0
   m_Name: UpHorizontal
   m_TagString: Untagged
@@ -1058,19 +1028,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &1121855057
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1121855055}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1121855058
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1132,6 +1089,7 @@ GameObject:
   - component: {fileID: 1238357697}
   - component: {fileID: 1238357696}
   - component: {fileID: 1238357695}
+  - component: {fileID: 1238357699}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1222,6 +1180,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!111 &1238357699
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238357694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3d725db7d2f69b542bb6b80caad8e360, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3d725db7d2f69b542bb6b80caad8e360, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1294286885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1467,6 @@ GameObject:
   - component: {fileID: 1529646889}
   - component: {fileID: 1529646892}
   - component: {fileID: 1529646891}
-  - component: {fileID: 1529646890}
   m_Layer: 0
   m_Name: CircleIndicator
   m_TagString: Untagged
@@ -1520,20 +1493,6 @@ RectTransform:
   m_AnchoredPosition: {x: -7, y: -1.54}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
---- !u!136 &1529646890
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529646888}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1529646891
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1594,7 +1553,6 @@ GameObject:
   - component: {fileID: 1532651300}
   - component: {fileID: 1532651303}
   - component: {fileID: 1532651302}
-  - component: {fileID: 1532651301}
   m_Layer: 0
   m_Name: LeftVertical
   m_TagString: Untagged
@@ -1621,19 +1579,6 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &1532651301
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532651299}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1532651302
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1910,8 +1855,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crossPrefab: {fileID: 5786148632537367362, guid: f5f1f9bd36587fa49bf744f889000154, type: 3}
   circlePrefab: {fileID: 7464492348867292297, guid: 32eb39075a65da248926ee86bbeb12ff, type: 3}
+  endAnimation: {fileID: 1238357699}
   circleTurn: 0
   crossTurn: 0
+  circleVictory: 0
+  crossVictory: 0
   circleIndicator: {fileID: 1529646888}
   crossIndicator: {fileID: 386599427}
   boardSpace:
@@ -2035,7 +1983,6 @@ GameObject:
   - component: {fileID: 2064754069}
   - component: {fileID: 2064754072}
   - component: {fileID: 2064754071}
-  - component: {fileID: 2064754070}
   m_Layer: 0
   m_Name: DownHorizontal
   m_TagString: Untagged
@@ -2062,19 +2009,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!65 &2064754070
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2064754068}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2064754071
 MeshRenderer:
   m_ObjectHideFlags: 0
