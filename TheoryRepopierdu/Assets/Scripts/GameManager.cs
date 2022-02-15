@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] public GameObject crossPrefab;
     [SerializeField] public GameObject circlePrefab;
-    [SerializeField] Animation endAnimation;
+    [SerializeField] Animation animation;
 
     public static GameManager Instance;
 
@@ -16,8 +16,14 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool crossVictory=false;
     [SerializeField] GameObject circleIndicator;
     [SerializeField] GameObject crossIndicator;
+    [SerializeField] TMPro.TextMeshProUGUI victoryBanner;
+    [SerializeField] GameObject[] lineDraw = new GameObject[3];
+    [SerializeField] GameObject[] columnDraw = new GameObject[3];
+    [SerializeField] GameObject[] curveDraw = new GameObject[2];
+
     public BoardSpace[] boardSpace  = new BoardSpace[10];
-    string Victor;
+    string victor;
+    int moves;
 
 
     private void Awake()
@@ -29,6 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         RandomFirstPlayer();
+        animation.Play("BoardSetup");
     }
 
     void Update()
@@ -63,30 +70,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOverCheck()
+    public void GameOverCheck() //dodac opcje remisu
     {
+        moves++;
+        if (moves >= 9)
+        {
+            victor = "DRAW";
+            animation.Play("EndGame");
+        }
         LineCheck();
         ColumnCheck();
         CurveCheck();
         VictoryCheck();
+        victoryBanner.text = victor;
     }
 
     void LineCheck()
     {
         for (int i = 0; i < 7; i += 3)
         {
+            int line = (i / 3);
             if(boardSpace[1+i].isCircle&& boardSpace[2+i].isCircle&& boardSpace[3+i].isCircle)
             {
                 circleVictory = true;
+                lineDraw[line].SetActive(true);
                 Debug.Log("Circle Line!!!");
             }
 
         }
         for (int i = 0; i < 7; i += 3)
         {
+            int line = (i / 3);
             if (boardSpace[1+i].isCross && boardSpace[2+i].isCross && boardSpace[3+i].isCross)
             {
                 crossVictory = true;
+                lineDraw[line].SetActive(true);
                 Debug.Log("Cross Line!!!");
             }
 
@@ -97,18 +115,22 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 4; i += 1)
         {
+            int line = (i-1);
             if (boardSpace[i].isCircle && boardSpace[3 + i].isCircle && boardSpace[6 + i].isCircle)
             {
                 circleVictory = true;
+                columnDraw[line].SetActive(true);
                 Debug.Log("Circle Column!!!");
             }
 
         }
         for (int i = 0; i < 4; i += 1)
         {
+            int line = (i-1);
             if (boardSpace[i].isCross && boardSpace[3 + i].isCross && boardSpace[6 + i].isCross)
             {
                 crossVictory = true;
+                columnDraw[line].SetActive(true);
                 Debug.Log("Cross Column!!!");
             }
 
@@ -117,13 +139,27 @@ public class GameManager : MonoBehaviour
 
     void CurveCheck()
     {
-        if (boardSpace[1].isCircle && boardSpace[5].isCircle && boardSpace[9].isCircle || boardSpace[3].isCircle && boardSpace[5].isCircle && boardSpace[7].isCircle)
+        if (boardSpace[1].isCircle && boardSpace[5].isCircle && boardSpace[9].isCircle)
         {
             circleVictory = true;
+            curveDraw[0].SetActive(true);
             Debug.Log("Circle Curve!!!");
         }
-        if (boardSpace[1].isCross && boardSpace[5].isCross && boardSpace[9].isCross || boardSpace[3].isCross && boardSpace[5].isCross && boardSpace[7].isCross)
+        if (boardSpace[3].isCircle && boardSpace[5].isCircle && boardSpace[7].isCircle)
         {
+            circleVictory = true;
+            curveDraw[1].SetActive(true);
+            Debug.Log("Circle Curve!!!");
+        }
+        if (boardSpace[1].isCross && boardSpace[5].isCross && boardSpace[9].isCross)
+        {
+            curveDraw[0].SetActive(true);
+            crossVictory = true;
+            Debug.Log("Cross Curve!!!");
+        }
+        if (boardSpace[3].isCross && boardSpace[5].isCross && boardSpace[7].isCross)
+        {
+            curveDraw[1].SetActive(true);
             crossVictory = true;
             Debug.Log("Cross Curve!!!");
         }
@@ -133,14 +169,15 @@ public class GameManager : MonoBehaviour
     {
         if (circleVictory)
         {
-            endAnimation.Play();
-            Victor = "Circle wins!";
+            animation.Play("EndGame");
+            victor = "Circle wins!";
         }
         if (crossVictory)
         {
-            endAnimation.Play();
-            Victor = "Cross wins!";
+            animation.Play("EndGame");
+            victor = "Cross wins!";
         }
+        
     }
 
     void NewGame()
@@ -149,9 +186,14 @@ public class GameManager : MonoBehaviour
         crossTurn = false;
     }
 
-    void RestartGame()
+    public void RestartGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     [System.Serializable]
