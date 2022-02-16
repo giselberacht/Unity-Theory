@@ -34,8 +34,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if(InterstitialAdExample.instance.repeats >= 5)
+        {
+            InterstitialAdExample.instance.repeats = 0;
+            InterstitialAdExample.instance.LoadAd();
+            InterstitialAdExample.instance.ShowAd();
+        }
         RandomFirstPlayer();
-        animation.Play("BoardSetup");
+        animation.Play("BoardSetup");        
     }
 
     void Update()
@@ -72,17 +78,23 @@ public class GameManager : MonoBehaviour
 
     public void GameOverCheck() //dodac opcje remisu
     {
-        moves++;
-        if (moves >= 9)
-        {
-            victor = "DRAW";
-            animation.Play("EndGame");
-        }
+        DrawCheck();
         LineCheck();
         ColumnCheck();
         CurveCheck();
         VictoryCheck();
         victoryBanner.text = victor;
+    }
+
+    private void DrawCheck()
+    {
+        moves++;
+        if (moves >= 9)
+        {
+            victor = "DRAW";
+            animation.Play("EndGame");
+            InterstitialAdExample.instance.repeats += 1;
+        }
     }
 
     void LineCheck()
@@ -171,11 +183,13 @@ public class GameManager : MonoBehaviour
         {
             animation.Play("EndGame");
             victor = "Circle wins!";
+            InterstitialAdExample.instance.repeats += 1;
         }
         if (crossVictory)
         {
             animation.Play("EndGame");
             victor = "Cross wins!";
+            InterstitialAdExample.instance.repeats += 1;
         }
         
     }
