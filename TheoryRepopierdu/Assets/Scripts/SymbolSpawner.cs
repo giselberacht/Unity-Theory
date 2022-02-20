@@ -75,12 +75,19 @@ public class SymbolSpawner : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!instance.crossVictory && !instance.circleVictory)
+        if (!instance.animation.isPlaying)
         {
-            SpawnShape();
-            SendSpaceData(spaceIndex, isCircle, isCross);
-            instance.GameOverCheck();
+            if (!instance.crossVictory && !instance.circleVictory)
+            {
+                if (!isCircle && !isCross) 
+                {
+                    SpawnShape();
+                    SendSpaceData(spaceIndex, isCircle, isCross);
+                    instance.GameOverCheck();
+                }
+            }
         }
+        
     }
    
 }

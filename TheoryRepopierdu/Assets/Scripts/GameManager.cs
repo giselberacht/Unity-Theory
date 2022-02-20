@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] public GameObject crossPrefab;
     [SerializeField] public GameObject circlePrefab;
-    [SerializeField] Animation animation;
+    [SerializeField] public Animation animation;
 
     public static GameManager Instance;
 
