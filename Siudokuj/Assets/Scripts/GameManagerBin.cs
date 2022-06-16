@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class GameManagerBin : MonoBehaviour
-{
+{/*
     List<int> numberList;
     public Transform[] fieldArray;
     public GameObject board;
@@ -51,6 +51,97 @@ public class GameManagerBin : MonoBehaviour
         else
             return true;
     }
+    bool SquareCheck(int checkedValue, float index)
+    {
+        index = index - 1;
+        int temp;
+        {
+            foreach (List<Transform> square in squareList)
+            {
+
+                foreach (Transform field in square[(int)index])
+                {
+                    temp = field.GetComponent<FieldInfo>().value;
+                    //if (temp != 0)
+                    if (temp == checkedValue)
+                    {
+                        Debug.Log("Kurwa!");
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    bool RowCheck(int checkedValue, float index)
+    {
+        int temp;
+        index = index - 1;
+        {
+            foreach (List<Transform> square in rowList)
+            {
+
+                foreach (Transform field in square[(int)index])
+                {
+                    temp = field.GetComponent<FieldInfo>().value;
+                    //if (temp != 0)
+                    if (temp == checkedValue)
+                    {
+                        Debug.Log("Kurwa!");
+                        break;
+                    }
+
+
+                }
+
+            }
+            return false;
+        }
+    }
+    bool LineCheck(int checkedValue, float index)
+    {
+
+        int temp;
+        index = index - 1;
+        {
+            foreach (List<Transform> square in rowList)
+            {
+
+                foreach (Transform field in square[(int)index - 1])
+                {
+                    temp = field.GetComponent<FieldInfo>().value;
+
+                    //if (temp != 0)
+                    if (temp == checkedValue)
+                    {
+                        Debug.Log("Kurwa!");
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    private bool ZeroTest(Transform field, int temp, ref int i, int tindex)
+    {
+        bool test = !Dcheck(temp, field);
+        if (temp != 0)
+            if (test == false)
+            {
+                Debug.Log("cut");
+                numberList.RemoveAt(tindex);
+            }
+            else
+            {
+                sprite = field.GetComponent<SpriteRenderer>();
+                sprite.color = new Color(100, 0, 0);
+                i = 5;
+            }
+
+        return test;
+    }
+
+
 
     bool LineDCheck(int checkedValue, float index)
     {
@@ -138,4 +229,4 @@ public class GameManagerBin : MonoBehaviour
     {
         numberList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     }
-}
+*/}

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         LineListFill();
         RowListFill();
         SquareListFill();
-        //ValueFill();
+        
         //LineLog();
         //SquareLog();
         //RowLog();
@@ -36,142 +36,106 @@ public class GameManager : MonoBehaviour
         //RowCheck();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    bool LineCheck(int checkedValue, float index)
+    bool ListCheck(int checkedValue, int index , List<List<Transform>> list)
     {
-        
-        int temp;
         index = index - 1;
+        Debug.Log(index + list.Count);
+        int temp;
         {
-            foreach (List<Transform> square in rowList)
-            {
-
-                foreach (Transform field in square[(int)index - 1])
+            //foreach (List<Transform> square in list)
+            //{
+            
+                foreach (Transform field in list[index])
                 {
                     temp = field.GetComponent<FieldInfo>().value;
+                    if (checkedValue != 0)
+                    {
 
-                      //if (temp != 0)
                         if (temp == checkedValue)
                         {
                             Debug.Log("Kurwa!");
-                        break;
+                            return false;
                         }
+                    }
                 }
-            }
-            return true;
-        }
-    }
-    bool RowCheck(int checkedValue, float index)
-    {
-        int temp;
-        index = index - 1;
-        {
-            foreach (List<Transform> square in rowList)
-            {
-
-                foreach (Transform field in square[(int)index])
-                {
-                    temp = field.GetComponent<FieldInfo>().value;
-                    //if (temp != 0)
-                        if (temp == checkedValue)
-                        {
-                            Debug.Log("Kurwa!");
-                        break;
-                        }
-                        
-
-                }
-
-            }
-            return false;
-        }
-    }
-    bool SquareCheck(int checkedValue, float index)
-    {
-        index = index - 1;
-        int temp;
-        {
-            foreach (List<Transform> square in squareList)
-            {
-
-                foreach (Transform field in square[(int)index])
-                {
-                    temp = field.GetComponent<FieldInfo>().value;
-                    //if (temp != 0)
-                        if (temp == checkedValue)
-                        {
-                            Debug.Log("Kurwa!");
-                            break;
-                        }
-                }
-            }
+            
+            //}
             return true;
         }
     }
     void ValueFill()
     {
-        for (int i = 1; i < 82; i++)
+        Debug.Log("start wartosci");
+        for (int i = 1; i <= 82; i++)
         {
+            Debug.Log(i + "pozycja");
             RandomValueFill(fieldArray[i]);
-            //Debug.Log(i);
         }
 
     }
     void RandomValueFill(Transform field)
     {
-        int temp = 0;
+        int temp;
         int i = 0;
-        int tindex = 0;
+        int tindex ;
         FieldInfo fieldInfo = field.GetComponent<FieldInfo>();
         numberList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        bool test = false;
-            tindex = UnityEngine.Random.Range(0, numberList.Count);
-            temp = numberList[tindex];
-            test = ZeroTest(field, temp, ref i, tindex);
+        bool test;
+        tindex = UnityEngine.Random.Range(0, numberList.Count);
+        temp = numberList[tindex];
+        Debug.Log(field);
+            
         for(;i==0;)
         {
-
-
+            
             tindex = UnityEngine.Random.Range(0, numberList.Count);
             temp = numberList[tindex];
-            Debug.Log(temp);
+            //Debug.Log(temp);
+            test = Dcheck(temp, field);
             field.GetComponent<FieldInfo>().value = temp;
-        }
+            //Dcheck(temp, field);
+            if (test == true)
+            {
+                i = 5;
+                sprite = field.GetComponent<SpriteRenderer>();
+                sprite.color = new Color(100, 0, 0);
+            }
 
-        //SquareCheck(fieldInfo.value, field.position.z);
-
-    }
-
-    private bool ZeroTest(Transform field, int temp, ref int i, int tindex)
-    {
-        bool test = !Dcheck(temp, field);
-        if (temp != 0)
-            if (test == false)
+            else
             {
                 Debug.Log("cut");
                 numberList.RemoveAt(tindex);
             }
-            else
-            {
-                sprite = field.GetComponent<SpriteRenderer>();
-                sprite.color = new Color(100, 0, 0);
-                i = 5;
-            }
+           
+        }
 
-        return test;
     }
+
 
     bool Dcheck(int temp, Transform field)
     {
-        if (SquareCheck(temp, field.position.z) && LineCheck(temp, field.position.y) && RowCheck(temp, field.position.x))
+        bool test = false;
+        if (ListCheck(temp, (int)field.position.x, rowList) == true)
         {
-            return true;
+            Debug.Log("uno " + "temp =" + temp + ListCheck(temp, (int)field.position.x, rowList));
+            
+            if(ListCheck(temp, Mathf.Abs((int)field.position.y), lineList) == true)
+            {
+                Debug.Log("duo " + "temp =" + temp +  ListCheck(temp, (int)field.position.x, rowList));
+                
+                if(ListCheck(temp, (int)field.position.z, squareList) == true)
+                {
+                    Debug.Log("tri " + "temp =" + temp +  ListCheck(temp, (int)field.position.x, rowList));
+                    test = true;
+                }
+            }
         }    
+        else
+            test = false;
+
+        if (test == true)
+            return true;
         else
             return false;
     }
@@ -191,18 +155,24 @@ public class GameManager : MonoBehaviour
     public void LineListFill()
     {
         line = new List<Transform>();
-        for (int i = 9; i >= 1; i--)
+        for (int i = 1; i <= 9; i++)
         {
             //Debug.Log(i * 10 + "%");
+
             line = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-                if (field.position.y.Equals(i))
+               // Mathf.Floor(field.position.y);
+                //Debug.Log(Mathf.Abs((int)field.position.y));
+                if  (Mathf.Floor(Mathf.Abs((int)field.position.y)).Equals(i))
                 {
                     line.Add(field);
+                    //sprite = field.GetComponent<SpriteRenderer>();
+                    //sprite.color = new Color(0, 100, 0);
                     //Debug.Log(line.Count);
                 }
             }
+            Debug.Log("linia");
             lineList.Add(line);
         }
     }
@@ -221,6 +191,7 @@ public class GameManager : MonoBehaviour
                     //Debug.Log(line.Count);
                 }
             }
+            Debug.Log("kolumna");
             rowList.Add(row);
         }
     }
@@ -239,6 +210,7 @@ public class GameManager : MonoBehaviour
                     //Debug.Log(line.Count);
                 }
             }
+            Debug.Log("kwadrat");
             squareList.Add(square);
         }
     }
