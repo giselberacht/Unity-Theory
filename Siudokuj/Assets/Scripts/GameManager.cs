@@ -325,5 +325,10 @@ public class GameManager : MonoBehaviour
         return done;
     }
 
-    
+    public void Reset()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+
 }
