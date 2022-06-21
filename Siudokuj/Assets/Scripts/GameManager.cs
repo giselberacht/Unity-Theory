@@ -33,38 +33,36 @@ public class GameManager : MonoBehaviour
         SquareListFill();
         error = new List<int>();
         ValueFill();
-        ErrorFixLoop();
-        //StartCoroutine(ErrorFix());
-        Debug.Break();
-        
-        Debug.Log($"liczba pêtli {loopCount}");
+        StartCoroutine(ErrorFix());
     }
 
-    private bool ErrorFixLoop()
+    private void ErrorFixLoop()
     {
-        while (error.Capacity > 0)
+        loopCount++;
+        foreach (int square in error)
         {
-            loopCount++;
-            foreach (int square in error)
-            {
-                FieldZeroing(square);
-                Debug.Log($"kwadrat {square} posiada b³êdy");
-            }
-            error = new List<int>();
-            ValueFill();
-            if (loopCount >= 30)
-            {
-                Debug.Log("za duzo petli !!!");
-                break;
-            }
+            FieldZeroing(square);
+            Debug.Log($"kwadrat {square} posiada b³êdy");
+           
         }
-        done = true;
-        return done;
+        error = new List<int>();
+        ValueFill();
+        Debug.Log($"loop count = {loopCount}");
+       
     }
 
     private void Update()
     {
-        
+        if (IsDone())
+        {
+
+            foreach (Transform field in fieldArray)
+            {
+                if (field.GetComponent<TMPro.TextMeshPro>() == null)
+                    continue;
+                field.GetComponent<TMPro.TextMeshPro>().color = Color.green;
+            }
+        }
     }
 
     bool ListCheck(int checkedValue, int index , List<List<Transform>> list)
@@ -97,10 +95,10 @@ public class GameManager : MonoBehaviour
             {
                 RandomValueFill(lineList[i][s]);
                 RandomValueFill(columnList[i][s]);
-                RandomValueFill(squareList[i][s]);
+                //RandomValueFill(squareList[i][s]);
                 if (broken)
                 {
-                    i--;
+                    //i--;
                     //Debug.Log(i + 1);
                     break;
                 }
@@ -110,8 +108,6 @@ public class GameManager : MonoBehaviour
     void RandomValueFill(Transform field)
     {
         FieldInfo fieldInfo = field.GetComponent<FieldInfo>();
-        if (error.Capacity > 0)
-            done = false;
         if(fieldInfo.value == 0 || broken)
         {
             broken = false;
@@ -132,11 +128,14 @@ public class GameManager : MonoBehaviour
             {
                 i = 5;
                 field.GetComponent<TMPro.TextMeshPro>().text = fieldInfo.value.ToString();
+                    
             }
             else
             {
                 Debug.Log("cut");
                 numberList.RemoveAt(tindex);
+                    field.GetComponent<TMPro.TextMeshPro>().text = "0";
+                    fieldInfo.value = 0;
                     if (numberList.Count == 0)
                     {
                         
@@ -262,7 +261,14 @@ public class GameManager : MonoBehaviour
         foreach (Transform field in squareList[z - 1])
         {
             field.GetComponent<FieldInfo>().value = 0;
-            field.GetComponent<TMPro.TextMeshPro>().color = Color.red;
+            //field.GetComponent<TMPro.TextMeshPro>().color = Color.red;
+        }
+    }
+    void BoardVipe()
+    {
+        foreach(Transform field in fieldArray)
+        {
+            field.GetComponent<FieldInfo>().value = 0;
         }
     }
 
@@ -270,9 +276,19 @@ public class GameManager : MonoBehaviour
     {
         while(error.Capacity > 0)
         {
-        ErrorFixLoop();
+            if (loopCount >= 15 /*|| error.Capacity >=6*/)
+            {
+                loopCount = 0;
+                Debug.Log($"za duzo petli!");
+                BoardVipe();
+                ValueFill();
+            }
+            ErrorFixLoop();
+            //Debug.Break();
+        yield return null;
         }
-        yield return new WaitUntil(IsDone);
+        done = true;
+        StopCoroutine(ErrorFix());
     }
     private void ColumnLog()
     {
