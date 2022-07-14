@@ -52,7 +52,7 @@ public class BoardSetup2 : MonoBehaviour
             row = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-                if (field.position.x.Equals(i))
+                if (field.localPosition.x.Equals(i))
                 {
                     row.Add(field);
                     //Debug.Log(line.Count);
@@ -70,7 +70,7 @@ public class BoardSetup2 : MonoBehaviour
             square = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-                if (field.position.z.Equals(i))
+                if (field.localPosition.z.Equals(i))
                 {
                     square.Add(field);
                     //Debug.Log(line.Count);

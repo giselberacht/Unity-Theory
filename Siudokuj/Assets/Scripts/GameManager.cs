@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public List<List<Transform>> squareList;
     public List<Transform> square;
     List<int> error;
-    //SpriteRenderer sprite;
+    public int difficulty;
     int agro;
     bool broken;
     int loopCount;
@@ -95,11 +95,8 @@ public class GameManager : MonoBehaviour
             {
                 RandomValueFill(lineList[i][s]);
                 RandomValueFill(columnList[i][s]);
-                //RandomValueFill(squareList[i][s]);
                 if (broken)
                 {
-                    //i--;
-                    //Debug.Log(i + 1);
                     break;
                 }
             }
@@ -128,7 +125,6 @@ public class GameManager : MonoBehaviour
             {
                 i = 5;
                 field.GetComponent<TMPro.TextMeshPro>().text = fieldInfo.value.ToString();
-                    
             }
             else
             {
@@ -139,11 +135,10 @@ public class GameManager : MonoBehaviour
                     if (numberList.Count == 0)
                     {
                         
-                        if (!error.Contains((int)field.position.z) || error.Capacity == 0)
+                        if (!error.Contains((int)field.localPosition.z) || error.Capacity == 0)
                         {
-                            error.Add((int)field.position.z);
+                            error.Add((int)field.localPosition.z);
                         }
-
                         broken = true;
                         break; 
                     }
@@ -157,17 +152,14 @@ public class GameManager : MonoBehaviour
     bool Dcheck(int temp, Transform field)
     {
         bool test = false;
-        if (ListCheck(temp, (int)field.position.x, columnList) == true)
+        if (ListCheck(temp, (int)field.localPosition.x, columnList) == true)
         {
-            //Debug.Log("uno " + "temp =" + temp + ListCheck(temp, (int)field.position.x, columnList));
             
-            if(ListCheck(temp, Mathf.Abs((int)field.position.y), lineList) == true)
+            if(ListCheck(temp, Mathf.Abs((int)field.localPosition.y), lineList) == true)
             {
-                //Debug.Log("duo " + "temp =" + temp +  ListCheck(temp, (int)field.position.x, columnList));
                 
-                if(ListCheck(temp, (int)field.position.z, squareList) == true)
+                if(ListCheck(temp, (int)field.localPosition.z, squareList) == true)
                 {
-                    //Debug.Log("tri " + "temp =" + temp +  ListCheck(temp, (int)field.position.x, columnList));
                     test = true;
                 }
             }
@@ -182,35 +174,24 @@ public class GameManager : MonoBehaviour
     }
     void FieldArrayFill()
     {
-
         int x = 1;
-        //Debug.Log("Field fill started...");
         foreach (Transform child in board.transform)
         {
-            //Debug.Log((float)x / 82 * 100 + "%");
             fieldArray[x] = child;
             x++;
         }
-
     }
     void LineListFill()
     {
         line = new List<Transform>();
         for (int i = 1; i <= 9; i++)
         {
-            //Debug.Log(i * 10 + "%");
-
             line = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-               // Mathf.Floor(field.position.y);
-                //Debug.Log(Mathf.Abs((int)field.position.y));
-                if  (Mathf.Floor(Mathf.Abs((int)field.position.y)).Equals(i))
+                if  (Mathf.Floor(Mathf.Abs((int)field.localPosition.y)).Equals(i))
                 {
                     line.Add(field);
-                    //sprite = field.GetComponent<SpriteRenderer>();
-                    //sprite.color = new Color(0, 100, 0);
-                    //Debug.Log(line.Count);
                 }
             }
             Debug.Log("linia");
@@ -222,14 +203,12 @@ public class GameManager : MonoBehaviour
         row = new List<Transform>();
         for (int i = 1; i <= 9; i++)
         {
-            //Debug.Log(i * 10 + "%");
             row = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-                if (field.position.x.Equals(i))
+                if (field.localPosition.x.Equals(i))
                 {
                     row.Add(field);
-                    //Debug.Log(line.Count);
                 }
             }
             Debug.Log("kolumna");
@@ -241,14 +220,12 @@ public class GameManager : MonoBehaviour
         square = new List<Transform>();
         for (int i = 1; i <= 9; i++)
         {
-            //Debug.Log(i * 10 + "%");
             square = new List<Transform>();
             foreach (Transform field in fieldArray)
             {
-                if (field.position.z.Equals(i))
+                if (field.localPosition.z.Equals(i))
                 {
                     square.Add(field);
-                    //Debug.Log(line.Count);
                 }
             }
             Debug.Log("kwadrat");
@@ -261,7 +238,6 @@ public class GameManager : MonoBehaviour
         foreach (Transform field in squareList[z - 1])
         {
             field.GetComponent<FieldInfo>().value = 0;
-            //field.GetComponent<TMPro.TextMeshPro>().color = Color.red;
         }
     }
     void BoardVipe()
@@ -296,7 +272,7 @@ public class GameManager : MonoBehaviour
         {
             agro++;
             foreach (Transform line in test)
-                Debug.Log(line.position + " kolumna " + agro);
+                Debug.Log(line.localPosition + " kolumna " + agro);
         }
     }
 
@@ -306,7 +282,7 @@ public class GameManager : MonoBehaviour
         {
             agro++;
             foreach (Transform line in test)
-                Debug.Log(line.position + " kwadrat " + agro);
+                Debug.Log(line.localPosition + " kwadrat " + agro);
         }
     }
 
@@ -316,7 +292,7 @@ public class GameManager : MonoBehaviour
         {
             agro++;
             foreach (Transform line in test)
-                Debug.Log(line.position + " linia " + agro);
+                Debug.Log(line.localPosition + " linia " + agro);
         }
     }
 
@@ -329,6 +305,54 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
+    public List<int> indexList = new List<int> { };
+    
+    
+    public void HiddenFieldGeneretor()
+    {
+        for (int i = 1; i <= 82; i++)
+        {
+            indexList.Add(i);
+        }
+        switch (difficulty)
+        {
+            case 0:     //Easy
+                FieldSelection(20);
+                break;
+            case 1:     //Normal
+                FieldSelection(25);
+                break;
+            case 2:     //Hard
+                FieldSelection(30);
+                break;
+        }
 
+    }
+    public void EasyMode()
+    {
+        difficulty = 0;
+        HiddenFieldGeneretor();
+    }
+    public void Mediummode()
+    {
+        difficulty = 1;
+        HiddenFieldGeneretor();
+    }
+    public void HardMode()
+    {
+        difficulty = 2;
+        HiddenFieldGeneretor();
+    }
+
+    void FieldSelection(int hiddenAmount)
+    {
+        for (int i = 1; i != hiddenAmount; i++)
+        {
+            int index;
+            index = indexList[Random.Range(1, indexList.Count)];
+            indexList.Remove(index);
+            fieldArray[index].GetComponent<TMPro.TextMeshPro>().enabled = false;
+        }
+    }
 
 }
